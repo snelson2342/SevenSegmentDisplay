@@ -11,7 +11,7 @@ import UIKit
 
 class SevenSegment{
     fileprivate var size: CGSize
-    public var numberOfDigitsToPad = 5
+    public var numberOfDigitsToPad = 1
     public weak var imageView: UIImageView?
     public var offColor = UIColor(displayP3Red: 0.7, green: 1, blue: 0.7, alpha: 0.2).cgColor
     public var onColor = UIColor(displayP3Red: 0.0, green: 0.9, blue: 0.4, alpha: 1.0).cgColor
@@ -49,19 +49,22 @@ class SevenSegment{
                     digits.insert(0, at: 0)
                 }
             }
-            let localWidth = size.width / CGFloat(digits.count) * 0.85
+            let height = size.height
+            var localWidth = size.width / CGFloat(digits.count) * 0.85
+            if localWidth > 0.8*height{
+                localWidth = 0.8*height
+            }
             let lineThickness:CGFloat = localWidth * 0.2 * 0.9
             let widthGap = localWidth * 0.01 * 0.9
-            let height = size.height
             let heightGap = height * 0.01
             let gap = heightGap * widthGap
             for i in 0..<digits.count{
                 let localOriginX = size.width / CGFloat(digits.count) * CGFloat(i)
-                
+                context?.setShadow(offset: CGSize(width: 0, height: 0), blur: blur)
+
                 //top
                 if [2,3,5,7,8,9,0].contains(digits[i]){
                     context?.setFillColor(onColor)
-                    context?.setShadow(offset: CGSize(width: 0, height: 0), blur: blur)
                 }else{
                     context?.setFillColor(offColor)
                 }
@@ -80,7 +83,6 @@ class SevenSegment{
                 //top left
                 if [4,5,6,8,9,0].contains(digits[i]){
                     context?.setFillColor(onColor)
-                    context?.setShadow(offset: CGSize(width: 0, height: 0), blur: blur)
                 }else{
                     context?.setFillColor(offColor)
                 }
@@ -95,7 +97,6 @@ class SevenSegment{
                 //top right
                 if [1,2,3,4,7,8,9,0].contains(digits[i]){
                     context?.setFillColor(onColor)
-                    context?.setShadow(offset: CGSize(width: 0, height: 0), blur: blur)
                 }else{
                     context?.setFillColor(offColor)
                 }
@@ -110,7 +111,6 @@ class SevenSegment{
                 //middle
                 if [2,3,4,5,6,8,9].contains(digits[i]){
                     context?.setFillColor(onColor)
-                    context?.setShadow(offset: CGSize(width: 0, height: 0), blur: blur)
                 }else{
                     context?.setFillColor(offColor)
                 }
@@ -125,7 +125,6 @@ class SevenSegment{
                 //bottom left
                 if [2,6,8,0].contains(digits[i]){
                     context?.setFillColor(onColor)
-                    context?.setShadow(offset: CGSize(width: 0, height: 0), blur: blur)
                 }else{
                     context?.setFillColor(offColor)
                 }
@@ -140,7 +139,6 @@ class SevenSegment{
                 //bottom right
                 if [1,3,4,5,6,7,8,9,0].contains(digits[i]){
                     context?.setFillColor(onColor)
-                    context?.setShadow(offset: CGSize(width: 0, height: 0), blur: blur)
                 }else{
                     context?.setFillColor(offColor)
                 }
@@ -155,7 +153,6 @@ class SevenSegment{
                 //bottom
                 if [2,3,5,6,8,0].contains(digits[i]){
                     context?.setFillColor(onColor)
-                    context?.setShadow(offset: CGSize(width: 0, height: 0), blur: blur)
                 }else{
                     context?.setFillColor(offColor)
                 }
