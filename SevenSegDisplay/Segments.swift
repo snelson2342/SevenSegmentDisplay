@@ -10,19 +10,22 @@ import Foundation
 import UIKit
 
 class SevenSegment{
-    var size: CGSize
-    var image: UIImage!{
+    fileprivate var size: CGSize
+    public var numberOfDigitsToPad = 5
+    public weak var imageView: UIImageView?
+    public var offColor = UIColor(displayP3Red: 0.7, green: 1, blue: 0.7, alpha: 0.2).cgColor
+    public var onColor = UIColor(displayP3Red: 0.0, green: 0.9, blue: 0.4, alpha: 1.0).cgColor
+    public var blur:CGFloat = 10
+    public private(set) var image: UIImage!{
         didSet{
             imageView?.image = image
         }
     }
-    weak var imageView: UIImageView?
-    var value: Int{
+    public var value: Int{
         didSet{
             draw()
         }
     }
-    var widthPad = 5
     
     init(integer: Int = 0, imageView: UIImageView){
         size = imageView.frame.size
@@ -35,28 +38,23 @@ class SevenSegment{
         value = integer
     }
 
-    
-    func draw(){
+    public func draw(){
         let renderer = UIGraphicsImageRenderer(size: size)
         
         let image = renderer.image(actions: { (context) in
             let context = UIGraphicsGetCurrentContext()
             var digits = value.asDigits()
-            if digits.count < widthPad{
-                for _ in 1...widthPad-digits.count{
+            if digits.count < numberOfDigitsToPad{
+                for _ in 1...numberOfDigitsToPad-digits.count{
                     digits.insert(0, at: 0)
                 }
             }
             let localWidth = size.width / CGFloat(digits.count) * 0.85
-            let lineThickness:CGFloat = localWidth * 0.15 * 0.9
+            let lineThickness:CGFloat = localWidth * 0.2 * 0.9
             let widthGap = localWidth * 0.01 * 0.9
             let height = size.height
             let heightGap = height * 0.01
             let gap = heightGap * widthGap
-            let blur:CGFloat = 10
-            let offColor = UIColor(displayP3Red: 1, green: 1, blue: 1, alpha: 0.5).cgColor
-            let onColor = UIColor.green.cgColor
-
             for i in 0..<digits.count{
                 let localOriginX = size.width / CGFloat(digits.count) * CGFloat(i)
                 
